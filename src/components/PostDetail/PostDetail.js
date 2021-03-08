@@ -11,13 +11,14 @@ const PostDetail = () => {
         fetch(`https://jsonplaceholder.typicode.com/posts/${ postId }`)
         .then(res => res.json())
         .then(data => setPost(data))
-    },[])
+        fetch(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`)
+    },[postId])
 
     useEffect(() => {
         fetch(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`)
         .then(res => res.json())
         .then(data => setComment(data))
-    },[])
+    },[postId])
     return (
         <div style={{margin:'30px',padding:'20px',border:'2px solid #aaa',borderRadius:'10px'}}>
             <h3>This is post details {postId}</h3>
@@ -26,7 +27,7 @@ const PostDetail = () => {
             <p>Post Body: {post.body}</p>
             <p>Number of comment: {comment.length}</p>
             {
-                comment.map(comment => <Comment comment={comment}></Comment>)
+                comment.map(comment => <Comment comment={comment} key={comment.id}></Comment>)
             }
         </div>
     );
